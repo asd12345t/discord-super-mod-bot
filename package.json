@@ -1,0 +1,26 @@
+{
+  "name": "discord-super-mod-bot",
+  "version": "1.0.0",
+  "description": "A super discord moderator bot.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/blazsmaster/discord-super-mod-bot.git"
+  },
+  "keywords": [
+    "discord",
+    "bot",
+    "moderator",
+    "mod",
+    "javascript"
+  ],
+  "author": "blázs",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/blazsmaster/discord-super-mod-bot/issues"
+  },
+  "homepage": "https://github.com/blazsmaster/discord-super-mod-bot#readme"
+}
