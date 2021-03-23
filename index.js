@@ -11,21 +11,29 @@ const client = new Discord.Client();
 // const commands
 client.commands = new Discord.Collection();
 
-// load commands
-const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
+// commands folder
+const commandFolders = fs.readdirSync('./commands');
 
-// const commands
-for (const file of commandFiles) {
+// command folders from commands folder
+for (const folder of commandFolders) {
 
-    // read command file
-	const command = require(`./commands/${file}`);
+    // command (category) folders
+	const commandFiles = fs.readdirSync(`./commands/${folder}`).filter(file => file.endsWith('.js'));
 
-    // set the command
-	client.commands.set(command.name, command);
+    // commands
+	for (const file of commandFiles) {
+
+        // command files
+		const command = require(`./commands/${folder}/${file}`);
+
+        // push commands
+		client.commands.set(command.name, command);
+	};
 };
 
+
 // login with token
-client.login(config.token)
+client.login(config.token);
 
 // ready event
 client.once('ready', () => {
@@ -58,10 +66,13 @@ client.on('message', (message) => {
 	const args = message.content.slice(config.prefix.length).trim().split(/ +/);
 
     // const command
-	const command = args.shift().toLowerCase();
+	const commandName = args.shift().toLowerCase();
+
+    // command
+    const command = client.commands.get(commandName);
 
     // if not match
-	if (!client.commands.has(command)) {
+	if (!command) {
 
         // send message to channel
         message.channel.send(
@@ -79,11 +90,56 @@ client.on('message', (message) => {
         return;
     };
 
-    // try to executing the command
-	try {
+    // only in guild
+    if (command.guildOnly && message.channel.type === 'dm') {
 
-        // get command
-		client.commands.get(command).execute(message, args);
+        // send message to channel
+        message.channel.send(
+
+            // embed
+            new Discord.MessageEmbed()
+            .setColor(config.color.red)
+            .setTitle('Error!')
+            .setDescription('You can not execute this command in DMs!')
+            .setFooter(message.author.tag, message.author.displayAvatarURL({ dynamic: true, size: 64 }))
+            .setTimestamp()
+        );
+
+        // cancel
+        return;
+    };
+
+    // permissions
+    if (command.permissions) {
+
+        // author permissions
+        const authorPerms = message.channel.permissionsFor(message.author);
+
+        // if no permission
+        if (!authorPerms || !authorPerms.has(command.permissions)) {
+        	
+            // send message to channel
+            message.channel.send(
+
+                // embed
+                new Discord.MessageEmbed()
+                .setColor(config.color.red)
+                .setTitle('No permission!')
+                .setDescription(`You need the \`${command.permissions}\` permission(s)!`)
+                .setFooter(message.author.tag, message.author.displayAvatarURL({ dynamic: true, size: 64 }))
+                .setTimestamp()
+            );
+
+            // cancel
+            return;
+        };
+    };
+
+    // try to executing the command
+    try {
+
+        // execute
+		command.execute(message, args);
 
     // if error
 	} catch (error) {
