@@ -71,7 +71,6 @@ module.exports = {
             .setColor(config.color.green)
             .setTitle(`Successful unmute!`)
             .setDescription(`${member} got unmuted by ${message.author}!`)
-            .addField('Reason', `\`\`\`${reason}\`\`\``)
             .setFooter(message.author.tag, message.author.displayAvatarURL({ dynamic: true, size: 64 }))
             .setTimestamp()
         );
