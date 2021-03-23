@@ -15,7 +15,6 @@ module.exports = {
 
     // command
 	execute(message, args) {
-        
 
         // get member
         const member = message.mentions.members.first();
