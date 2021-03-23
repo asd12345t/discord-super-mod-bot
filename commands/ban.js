@@ -17,7 +17,7 @@ module.exports = {
 	execute(message, args) {
         
 
-        // gen member
+        // get member
         const member = message.mentions.members.first();
 
         // no member
