@@ -105,3 +105,33 @@ client.on('message', (message) => {
         );
 	};
 });
+
+// mute commands ==> mute role
+client.on('channelCreate', (channel) => {
+
+    // if DM
+    if (!channel.guild) {
+
+        // cancel
+        return;
+    };
+
+    // mute role
+    const muteRole = channel.guild.roles.cache.find(r => r.name === 'Muted');
+
+    // if can not find
+    if (!muteRole) {
+
+        // cancel
+        return;
+    };
+
+    // overwrite new channels permissions for mute role
+    channel.createOverwrite(muteRole, {
+
+        // permissions
+        SEND_MESSAGES: false, // can not send messages to channels
+        CONNECT: false, // can not connect to voice channels
+        ADD_REACTIONS: false // can not add reactions to messages
+    });
+});
