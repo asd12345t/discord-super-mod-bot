@@ -154,7 +154,7 @@ client.on('message', (message) => {
             new Discord.MessageEmbed()
             .setColor(config.color.red)
             .setTitle('Error occurred!')
-            .setDescription(`An error occurred in \`${command}\` command!`)
+            .setDescription(`An error occurred in \`${commandName}\` command!`)
             .addField('Error', `\`\`\`js\n${error}\n\`\`\``)
             .setFooter(message.author.tag, message.author.displayAvatarURL({ dynamic: true, size: 64 }))
             .setTimestamp()
