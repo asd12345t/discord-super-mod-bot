@@ -6,7 +6,7 @@ const fs = require('fs');
 const config = require('./config.json');
 
 // create client
-const client = new Discord.Client();
+const client = new Discord.Client({ disableEveryone: true });
 
 // const commands
 client.commands = new Discord.Collection();
@@ -81,7 +81,7 @@ client.on('message', (message) => {
             new Discord.MessageEmbed()
             .setColor(config.color.red)
             .setTitle('Unknown command')
-            .setDescription(`Sorry, but no command match \`${command}\`!`)
+            .setDescription(`Sorry, but no command match \`${commandName}\`!`)
             .setFooter(message.author.tag, message.author.displayAvatarURL({ dynamic: true, size: 64 }))
             .setTimestamp()
         );
