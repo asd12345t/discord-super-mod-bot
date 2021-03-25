@@ -23,7 +23,7 @@ module.exports = {
             new Discord.MessageEmbed()
             .setColor(config.color.default)
             .setTitle('Bot Ping')
-            .addField('Bot latency', `${Math.round(message.createdTimestamp / 10000000000)}ms`)
+            .addField('Bot latency', `${Math.ceil(message.client.ws.ping)}ms`) 
             .setFooter(message.author.tag, message.author.displayAvatarURL({ dynamic: true, size: 64 }))
             .setTimestamp()
         );
